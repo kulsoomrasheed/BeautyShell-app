@@ -7,7 +7,7 @@ import { store } from '../store';
 
 export const signup = (obj)=>(dispatch) => {
     dispatch({type:LOGIN_PENDING})
-axios.post("http://localhost:4500/user/register",obj).then((res)=>{
+axios.post("https://task-management-backend-3gib.onrender.com/user/register",obj).then((res)=>{
     dispatch({type:LOGIN_SUCCESS})
     console.log(res.data);
 }).catch((err)=>{
@@ -21,7 +21,7 @@ axios.post("http://localhost:4500/user/register",obj).then((res)=>{
 
 export const login = (obj)=>(dispatch) => {
     dispatch({type:LOGIN_PENDING})
- axios.post("http://localhost:4500/user/login",obj).then((res)=>{
+ axios.post("https://task-management-backend-3gib.onrender.com/user/login",obj).then((res)=>{
     dispatch({type:LOGIN_SUCCESS,payload:res.data.token})
     localStorage.setItem("token", res.data.token)
     console.log(res.data.token);
