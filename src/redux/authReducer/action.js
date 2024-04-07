@@ -2,7 +2,6 @@ import React from 'react'
 import axios from "axios";
 import { LOGIN_FAILED, LOGIN_PENDING, LOGIN_SUCCESS, TODO_FAILED, TODO_PENDING, TODO_SUCCESS } from './actionTypes';
 import { useSelector } from 'react-redux';
-import { store } from '../store';
 
 
 export const signup = (obj)=>(dispatch) => {

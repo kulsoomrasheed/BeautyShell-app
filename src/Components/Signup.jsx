@@ -22,6 +22,7 @@ import { useState } from 'react';
 import { signup } from '../redux/authReducer/action';
 import {useDispatch} from "react-redux"
 import { useNavigate } from 'react-router-dom';
+import Navbar from './Navbar';
 
 const avatars = [
   {
@@ -98,6 +99,8 @@ const handleChange = (value) => {
 };
   return (
     <Box position={'relative'}>
+            <Navbar/>
+
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
@@ -108,7 +111,7 @@ const handleChange = (value) => {
           <Heading
             lineHeight={1.1}
             fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-         BeautyShell App{' '}
+             Rosewood Floristry🌺
             
           </Heading>
           <Stack direction={'row'} spacing={4} align={'center'}>
@@ -183,7 +186,7 @@ Register your account           <Text as={'span'} bgGradient="linear(to-r, red.4
               </Text>
             </Heading>
             <Text color={'gray.500'} fontSize={{ base: 'sm', sm: 'md' }}>
-            Empower Your Literary World: Be a Creator or a Viewer, Seamlessly Manage Your Library Journey with Ease.
+          Your favourite makeup store
 
 
 
@@ -200,6 +203,7 @@ Register your account           <Text as={'span'} bgGradient="linear(to-r, red.4
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
+                type='text'
                 _placeholder={{
                   color: 'gray.500',
                 }}
@@ -213,12 +217,14 @@ Register your account           <Text as={'span'} bgGradient="linear(to-r, red.4
                 _placeholder={{
                   color: 'gray.500',
                 }}
+                type='email'
               />
               <Input
                onChange={(e)=>setPass(e.target.value)}
                 placeholder="Enter Password"
                 bg={'gray.100'}
                 border={0}
+                type='password'
                 color={'gray.500'}
                 _placeholder={{
                   color: 'gray.500',

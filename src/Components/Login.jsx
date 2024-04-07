@@ -22,6 +22,7 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { login } from '../redux/authReducer/action';
 import { useState } from 'react';
+import Navbar from './Navbar';
 
 const avatars = [
   {
@@ -70,27 +71,27 @@ const Blur = (props) => {
 export default function Login() {
   const navigate = useNavigate();
   const [username, setname] = useState("");
-  const [pass, setpass] = useState("");
+  const [password, setpass] = useState("");
 
   const dispatch = useDispatch();
   const obj = {
     username,
-    pass,
+    password,
   };
 
   const handleclick = () => {
     console.log(obj);
-    dispatch(login(obj))
-      
-        setname("");
-        setpass("");
-        navigate("/");
+   dispatch(login(obj))
+   setname("")
+   setpass("")
+   navigate("/products")
     
   }  
     
 
   return (
     <Box position={'relative'}>
+      <Navbar/>
       <Container
         as={SimpleGrid}
         maxW={'7xl'}
@@ -101,7 +102,7 @@ export default function Login() {
           <Heading
             lineHeight={1.1}
             fontSize={{ base: '3xl', sm: '4xl', md: '5xl', lg: '6xl' }}>
-             BeautyShell App{' '}
+             Rosewood Floristry🌺
             
           </Heading>
           <Stack direction={'row'} spacing={4} align={'center'}>
@@ -191,6 +192,7 @@ Login your account            <Text as={'span'} bgGradient="linear(to-r, red.400
                             onChange={(e)=>setname(e.target.value)}
 
                 placeholder="Username"
+                type="text"
                 bg={'gray.100'}
                 border={0}
                 color={'gray.500'}
@@ -203,6 +205,7 @@ Login your account            <Text as={'span'} bgGradient="linear(to-r, red.400
                 placeholder="Enter Password"
                 bg={'gray.100'}
                 border={0}
+                type='password'
                 color={'gray.500'}
                 _placeholder={{
                   color: 'gray.500',

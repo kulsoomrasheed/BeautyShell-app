@@ -26,6 +26,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import SwiperCarousal from '../Components/Carousel';
 import AllProducts from '../Components/Products';
+import Nav from '../Components/Nav';
+import Navbar from '../Components/Navbar';
 
 
 const Home = () => {
@@ -56,10 +58,8 @@ const handleCancel = () => {
 
   return (
     <Box width={'80%'} justifyContent={'center'} margin={'auto'} my={5}>
-      <Heading color={'purple.600'} mb={10}>
-      BeautyShell App
-      </Heading>
-<SwiperCarousal/>
+      <Navbar/>
+    <SwiperCarousal/>
 
 
       <Modal isOpen={isOpen} onClose={handleClose}>
@@ -79,7 +79,16 @@ const handleCancel = () => {
           </ModalFooter>
         </ModalContent>
       </Modal>
-
+      <Heading
+        fontSize={"4xl"}
+        textAlign={"center"}
+        bgGradient="linear(to-r, red.400, purple.600)"
+        backgroundClip="text"
+        margin={5}
+        mt={5}
+      >
+        All Products (565)
+      </Heading>
 <AllProducts/>
     </Box>
   );

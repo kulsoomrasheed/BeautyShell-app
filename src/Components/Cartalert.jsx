@@ -5,7 +5,6 @@ const ToastExample = ({ title,el }) => {
   const toast = useToast()
 
   const postData = () => {
-    // Your code to handle the post data operation
     axios.post("https://nykaa-server-wg8d.onrender.com/nykaa/cart",el).then((res)=>{
       console.log(res.data);
     }).catch((err) => {
@@ -22,7 +21,7 @@ console.log(err.message);
       padding={2}
       fontSize={'xs'}
       onClick={() => {
-        postData(); // Call the postData function
+        postData();
         toast({
           title: "Added to Cart!",
           description: "Go to Cart for Checkout",
