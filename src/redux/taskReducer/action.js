@@ -74,7 +74,7 @@ export const handlePatch = (id, obj)=>(dispatch) => {
   dispatch({type: TASK_PENDING})
   axios
     .patch(
-      `https://arba-be-myn8.onrender.com/products/edit/${id}`,
+      `https://arba-be-myn8.onrender.com/users/edit/${id}`,
       obj,
       {
         headers: {
