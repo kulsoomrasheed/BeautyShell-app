@@ -13,16 +13,20 @@ const Cart = () => {
   const[ data, setData]= useState([])
   const[ load, setload]= useState(false   )
 const wish = true
+const token=localStorage.getItem('token')
 
   useEffect(()=>{
    fetchData()
   },[])
-
    const fetchData=()=>{
     setload(true)
-     axios.get("https://nykaa-server-wg8d.onrender.com/nykaa/cart").then((res)=>{
-       console.log(res.data.msg);
-       setData(res.data.msg);
+     axios.get("https://arba-be-myn8.onrender.com/cart", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    }).then((res)=>{
+       console.log(res.data.products);
+       setData(res.data.products);
        setload(false)
      }).catch((err)=>{
        console.log(err.message);
@@ -33,7 +37,11 @@ const wish = true
 
     const deleteItem = (_id) => {
         axios
-          .delete(`https://nykaa-server-wg8d.onrender.com/nykaa/cart/${_id}`)
+          .delete(`https://arba-be-myn8.onrender.com/cart/delete/${_id}`, {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          })
           .then((res) => {
             console.log(res.data);
             window.location.reload();
@@ -55,11 +63,11 @@ const wish = true
         backgroundClip="text">My Cart ({data?.length})</Heading>
         <Button  bgGradient="linear(to-r, red.400, purple.600)" color={'white'}>Checkout</Button>
 <Grid
-      width={"85%"}
+      width={"80%"}
       templateColumns={{
         base: "repeat(1, 1fr)",
         md: "repeat(1, 1fr)",
-        lg: "repeat(3, 1fr)",
+        lg: "repeat(4, 1fr)",
       }}
       gap={2}
       margin={"auto"}
@@ -68,7 +76,7 @@ const wish = true
       alignItems={"center"}
     >
 
-      {data.map((el, i) => {
+      {data && data.map((el, i) => {
         return (
           <Box
             justifyContent={"center"}
@@ -85,7 +93,7 @@ const wish = true
             <Badge borderRadius="full" px="2" colorScheme="teal">
               {el.best}
             </Badge>
-            <Image width={"100%"} justifyContent={"center"} src={el.img} />
+            <Image width={"100%"} justifyContent={"center"} src={el.image} />
             <Box p="6">
               <Box
                 mt="1"
@@ -94,13 +102,13 @@ const wish = true
                 lineHeight="tight"
                 noOfLines={1}
               >
-                {el.name}
+                {el.title}
               </Box>
 
               <Box>
                 ₹{el.price}
                 <Box m={2} as="span" color="green.300" fontSize="sm">
-                  {el.offer}
+                  {el.desc}
                 </Box>
               </Box>
 
@@ -111,12 +119,10 @@ const wish = true
                 justifyContent={"center"}
               >
                 <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                  {el.qty}
+                  {el.category}
                 </Box>
               </Box>
-              <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                {el.shades}
-              </Box>
+             
 
               <Flex
                 justifyContent={"center"}
@@ -134,7 +140,7 @@ const wish = true
                   <DeleteIcon
                     fontSize={"3xl"}
                     onClick={() => deleteItem(el._id)}
-                    color={"#e80071"}
+                    color={"#5cc9cf"}
                   />
                 </Button>
               </Flex>

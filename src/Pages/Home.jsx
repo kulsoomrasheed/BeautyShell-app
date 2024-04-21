@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { memo, useEffect, useState } from 'react';
 import {
   Table,
   Thead,
@@ -11,6 +11,7 @@ import {
   Box,
   Button,
   useDisclosure,
+  Flex,
 } from '@chakra-ui/react';
 import { useSelector } from 'react-redux'
 import {
@@ -28,12 +29,13 @@ import SwiperCarousal from '../Components/Carousel';
 import AllProducts from '../Components/Products';
 import Nav from '../Components/Nav';
 import Navbar from '../Components/Navbar';
+import { ChevronRightIcon } from '@chakra-ui/icons';
 
 
 const Home = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [accepted, setAccepted] = useState(false);
-
+const navigate=useNavigate()
 useEffect(() => {
   const isAccepted = localStorage.getItem('termsAccepted');
   if (!isAccepted) {
@@ -52,12 +54,15 @@ const handleAccept = () => {
 };
 
 const handleCancel = () => {
-  setIsOpen(true); 
-};
+  const isAccepted = localStorage.getItem('termsAccepted');
+  alert("Accept the terms and conditions first")
+  if (!isAccepted) {
+    setIsOpen(true); 
+  }};
 
 
   return (
-    <Box width={'80%'} justifyContent={'center'} margin={'auto'} my={5}>
+    <Box width={'90%'} justifyContent={'center'} margin={'auto'} my={5}>
       <Navbar/>
     <SwiperCarousal/>
 
@@ -87,14 +92,21 @@ const handleCancel = () => {
         margin={5}
         mt={5}
       >
-        All Products (565)
+        All Products (8)
       </Heading>
 <AllProducts/>
+<Flex justifyContent="flex-end" m={'50px auto'}>
+  <Button bgColor={'#5cc9cf'} color={'white'} onClick={() => navigate("/allproducts")}>
+    All Products <ChevronRightIcon/>
+  </Button>
+</Flex>
+
     </Box>
+    
   );
 };
 
-export default Home;
+export default memo(Home);
 /*const fetch= () => {
   axios.get("https://lib-a9dj.onrender.com/user")
     .then((res) => {

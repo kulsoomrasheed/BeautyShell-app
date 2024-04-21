@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux';
 
 export const signup = (obj)=>(dispatch) => {
     dispatch({type:LOGIN_PENDING})
-axios.post("https://task-management-backend-3gib.onrender.com/user/register",obj).then((res)=>{
+axios.post("https://arba-be-myn8.onrender.com/users/register",obj).then((res)=>{
     dispatch({type:LOGIN_SUCCESS})
     console.log(res.data);
 }).catch((err)=>{
@@ -18,17 +18,17 @@ axios.post("https://task-management-backend-3gib.onrender.com/user/register",obj
 
 
 
-export const login = (obj)=>(dispatch) => {
+export const login = (obj)=>async(dispatch) => {
     dispatch({type:LOGIN_PENDING})
- axios.post("https://task-management-backend-3gib.onrender.com/user/login",obj).then((res)=>{
+ return axios.post("https://arba-be-myn8.onrender.com/users/login",obj).then((res)=>{
     dispatch({type:LOGIN_SUCCESS,payload:res.data.token})
     localStorage.setItem("token", res.data.token)
     console.log(res.data.token);
-    alert("Login successfully!")
+    return res.data.token
 }).catch((err)=>{
     console.log(err.message);
     dispatch({type:LOGIN_FAILED})
-    alert("User not found!")
+    throw err
 
 })
 }

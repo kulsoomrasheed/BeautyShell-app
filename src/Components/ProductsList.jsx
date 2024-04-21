@@ -12,15 +12,23 @@ import {
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import Cartalert from "./Cartalert";
+import { memo } from "react";
+import { getProducts } from "../redux/taskReducer/action";
+import { useDispatch } from "react-redux";
 const Products = ({ data }, wish) => {
+  const dispatch=useDispatch()
   console.log(wish);
+  const token=localStorage.getItem('token');
   const deleteItem = (_id) => {
     axios
-      .delete(`https://nykaa-server-wg8d.onrender.com/nykaa/wishlist/${_id}`)
+      .delete(`https://arba-be-myn8.onrender.com/products/delete/${_id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }
+  })
       .then((res) => {
         console.log(res.data);
-        window.location.reload();
-      })
+dispatch(getProducts)      })
       .catch((err) => {
         console.log(err.message);
       });
@@ -28,7 +36,10 @@ const Products = ({ data }, wish) => {
 
   const handleWishlist = (el) => {
     axios
-      .post("https://nykaa-server-wg8d.onrender.com/nykaa/wishlist", el)
+      .post("https://arba-be-myn8.onrender.com/cart", el, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }})
       .then((res) => {
         console.log(res.data);
       })
@@ -44,7 +55,7 @@ const Products = ({ data }, wish) => {
       templateColumns={{
         base: "repeat(1, 1fr)",
         md: "repeat(1, 1fr)",
-        lg: "repeat(3, 1fr)",
+        lg: "repeat(4, 1fr)",
       }}
       gap={2}
       margin={"auto"}
@@ -52,9 +63,10 @@ const Products = ({ data }, wish) => {
       alignContent={"center"}
       alignItems={"center"}
     >
-      {data.map((el, i) => {
+      {data.length>0 && data.slice(0, 8).map((el, i) => {
+      localStorage.setItem("user",el.userID)
         return (
-          <Box
+          <Box key={i}
             justifyContent={"center"}
             maxW="sm"
             borderWidth="1px"
@@ -69,7 +81,7 @@ const Products = ({ data }, wish) => {
             <Badge borderRadius="full" px="2" colorScheme="teal">
               {el.best}
             </Badge>
-            <Image width={"100%"} justifyContent={"center"} src={el.img} />
+            <Image width={"100%"} justifyContent={"center"} src={el.image} />
             <Box p="6">
               <Box
                 mt="1"
@@ -78,13 +90,13 @@ const Products = ({ data }, wish) => {
                 lineHeight="tight"
                 noOfLines={1}
               >
-                {el.name}
+                {el.title}
               </Box>
 
               <Box>
                 ₹{el.price}
                 <Box m={2} as="span" color="green.300" fontSize="sm">
-                  {el.offer}
+                  {el.desc}
                 </Box>
               </Box>
 
@@ -95,12 +107,10 @@ const Products = ({ data }, wish) => {
                 justifyContent={"center"}
               >
                 <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                  {el.qty}
+                  {el.category}
                 </Box>
               </Box>
-              <Box as="span" ml="2" color="gray.600" fontSize="sm">
-                {el.shades}
-              </Box>
+             
 
               <Flex
                 justifyContent={"center"}
@@ -112,7 +122,7 @@ const Products = ({ data }, wish) => {
                   margin={1}
                   variant={"outline"}
                   padding={2}
-                  color={"#e80071"}
+                  color={"#5cc9cf"}
                   fontSize={"md"}
                   onClick={() => handleWishlist(el)}
                 >
@@ -128,7 +138,7 @@ const Products = ({ data }, wish) => {
                   <DeleteIcon
                     fontSize={"3xl"}
                     onClick={() => deleteItem(el._id)}
-                    color={"#e80071"}
+                    color={"#5cc9cf"}
                   />
                 </Button>
               </Flex>
@@ -140,4 +150,7 @@ const Products = ({ data }, wish) => {
   );
 };
 
-export default Products;
+export default memo(Products);
+/* <Box as="span" ml="2" color="gray.600" fontSize="sm">
+                {el.shades}
+              </Box>*/

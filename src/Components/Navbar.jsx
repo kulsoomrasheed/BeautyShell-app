@@ -16,6 +16,7 @@ import {
 } from '@chakra-ui/react'
 const Navbar = () => {
   const navigate = useNavigate();
+  const id = localStorage.getItem("user")
   const {auth}= useSelector((store)=>store.authReducer)
   const [isSticky, setIsSticky] = useState(false);
   useEffect(() => {
@@ -38,67 +39,44 @@ const Navbar = () => {
     <Box
       w={'100%'}
       padding={1}
-      justifyContent={'center'}
+      justifyContent={'space-between'}
       alignItems={'center'}
-      alignContent={'space-evenly'}
       position={isSticky ? 'fixed' : 'relative'}
       top="0"
       zIndex="100"
       backgroundColor="white"
       boxShadow={isSticky ? '0px 4px 4px rgba(0, 0, 0, 0.1)' : 'none'}
       display={{
-        base: 'none', // Hide on small screens
-        sm: 'none',   // Hide on medium screens
-        lg: 'flex',   // Display on large screens
+        base: 'none', 
+        sm: 'none', 
+        lg: 'flex',   
       }}
     >
-      <Flex justifyContent="space-evenly" alignItems="center"       gap={16}
+      <Flex justifyContent="space-between" alignItems="center"     w={'100%'}  gap={26}
 >
         <Link to="/products">
-          <Image
-            width="200px"
-            src="logo.png"
-            alt="logo"
-          />
+        <Button color={'white'} bgColor={"#21becd"} _hover={{bgColor:"#21becd"}}>Logo</Button>
         </Link>
-        <Flex justifyContent="space-evenly" gap={3}>
-          <Link to={'/categories'}>
-            <Text color={'gray.600'}>
-              <b>Categories</b>
-            </Text>
-          </Link>
-          <Link to={'/brands'}>
-            <Text color={'gray.600'}>
-              <b>Brands</b>
-            </Text>
-          </Link>
-          <Text color={'gray.600'}>
-            <b>Luxe</b>
-          </Text>
-          <Text color={'gray.600'}>
-            <b>RF Fashion</b>
-          </Text>
-          <Text color={'gray.600'}>
-            <b>Beauty Advice</b>
-          </Text>
-        </Flex>
+       
       
-        <div>
-          
-        </div>
-        <Button onClick={()=>navigate("/cart")} bgColor={'#e80071'} colorScheme='pink' color={'white'} fontSize={'sm'} > Cart</Button>
-      {auth? <Button onClick={()=>navigate("/signup")} bgColor={'#e80071'} colorScheme='pink' color={'white'} fontSize={'sm'}> Logout</Button>: <Button onClick={()=>navigate("/signup")} bgColor={'#e80071'} colorScheme='pink' color={'white'} fontSize={'sm'}> Login</Button>} 
-        <Menu>
-  <MenuButton as={Button} >
-    <Image width={8} src='https://www.pngfind.com/pngs/m/468-4686427_profile-demo-hd-png-download.png'/>
-  </MenuButton>
-  <MenuList>
-    <Link to={'/store'}><MenuItem >My Store</MenuItem></Link>
-    <Link to={'/profile'}>   <MenuItem>Profile</MenuItem></Link>
-    <MenuItem>Logout</MenuItem>
+       <Flex>
+       <Link to={"/cart"}  ><Image w={'4rem'}  src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRg5R6b9L3PEWRpa4LHs00d0HY4jrw-A4a1ooT0WNKxiw&s'></Image> </Link>
+     
+     <Menu >
+<MenuButton mx={5}  as={Button} display={auth?"block":"none"} >
+ <Image width={8} src='https://www.pngfind.com/pngs/m/468-4686427_profile-demo-hd-png-download.png'/>
+</MenuButton>
+<MenuList>
+ <Link to={'/store'}><MenuItem >My Store</MenuItem></Link>
+ <Link to={`/profile/${id}`}>   <MenuItem>Profile</MenuItem></Link>
+ <MenuItem onClick={()=>{
+     navigate("/login")
+     localStorage.clear()
+   } }>Logout</MenuItem>
 
-  </MenuList>
+</MenuList>
 </Menu>
+       </Flex>
       </Flex>
     </Box>
   );

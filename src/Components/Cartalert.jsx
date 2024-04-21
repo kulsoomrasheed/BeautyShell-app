@@ -3,19 +3,25 @@ import axios from "axios"
 
 const ToastExample = ({ title,el }) => {
   const toast = useToast()
-
+const token = localStorage.getItem('token')
   const postData = () => {
-    axios.post("https://nykaa-server-wg8d.onrender.com/nykaa/cart",el).then((res)=>{
-      console.log(res.data);
-    }).catch((err) => {
-console.log(err.message);
-    })
-  }
+      axios
+        .post("https://arba-be-myn8.onrender.com/cart", el, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }})
+        .then((res) => {
+          console.log(res.data);
+        })
+        .catch((err) => {
+          console.log(err.message);
+        });
+    };
 
   return (
     <Button
       margin={1}
-      bgColor={"#e80071"}
+      bgColor={"#5cc9cf"}
       colorScheme={"pink"}
       variant={"solid"}
       padding={2}
