@@ -29,13 +29,14 @@ const AddCat = () => {
 
     setUploading(true);
     const token= localStorage.getItem('token')
-    const obj={
-      file,name,size
-    }
-    console.log(obj);
+    const formData = new FormData();
+    formData.append('image', file);
+    formData.append('name', name);
+    formData.append('size', size);
+    console.log(formData);
     
     try {
-      await axios.post('https://arba-be-myn8.onrender.com/category/', obj, {
+      await axios.post('https://arba-be-myn8.onrender.com/category/', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
 

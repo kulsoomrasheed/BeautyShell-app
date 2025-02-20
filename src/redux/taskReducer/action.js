@@ -25,12 +25,10 @@ export const postProducts=(obj)=>(dispatch)=>{
   const token= localStorage.getItem('token')
     dispatch({type: TASK_PENDING})
 console.log(token,'lin24');
-    axios
-    .post("https://arba-be-myn8.onrender.com/products", obj, {
+    axios.post("http://localhost:4500/products", obj, {
       headers: {
         Authorization: `Bearer ${token}`,
         'Content-Type': 'multipart/form-data',
-
       },
     })
     .then((res) => {

@@ -83,7 +83,7 @@ export default function Login() {
       pass,
     };
     console.log(obj);
-   const response= dispatch(login(obj)).then((res)=>{
+    dispatch(login(obj)).then((res)=>{
         setname("")
         setpass("")
         navigate("/products")

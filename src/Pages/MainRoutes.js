@@ -16,14 +16,14 @@ const MainRoutes = () => {
   return <Routes>
         <Route path='/' element={<Signup/>}/>
         <Route path='/login' element={<Login/>}/>
-        <Route path='/products' element={<Private><Home/></Private>}/>
-        <Route path='/cart' element={<Private><Cart/></Private>}/> 
-        <Route path='/store' element={<Private><MyStore/></Private>}/> 
-        <Route path='/allproducts' element={<Private><AllProductPage/></Private>}/> 
-        <Route path='/editprofile/:id' element={<Private><EditProfile/></Private>}/> 
+        <Route path='/products' element={<Home/>}/>
+        <Route path='/cart' element={<Cart/>}/> 
+        <Route path='/store' element={<MyStore/>}/> 
+        <Route path='/allproducts' element={<AllProductPage/>}/> 
+        <Route path='/editprofile/:id' element={<EditProfile/>}/> 
 
-        <Route path='/profile/:id' element={<Private><Profile/></Private>}/> 
-        <Route path='/edit/:id' element={<Private><Edit/></Private>}/> 
+        <Route path='/profile/:id' element={<Profile/>}/> 
+        <Route path='/edit/:id' element={<Edit/>}/> 
 
         <Route path='*' element={<Notfound/>}/>  </Routes>
 }

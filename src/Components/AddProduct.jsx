@@ -167,7 +167,7 @@ const [price,setPrice]= useState(0)
 };
 
 export default AddProduct;
-*/
+
 
 import React, { useState } from 'react';
 import {
@@ -179,9 +179,12 @@ import {
   Select
 } from '@chakra-ui/react';
 import axios from 'axios';
+import {useDispatch} from 'react-redux'
+import { postProducts } from '../redux/taskReducer/action';
 
 const AddProduct = () => {
   const token = localStorage.getItem("token")
+  const dispatch=useDispatch()
   const [file, setFile] = useState(null);
   const [title, setTitle] = useState('');
   const [desc, setDescription] = useState('');
@@ -202,40 +205,21 @@ const AddProduct = () => {
 
     setUploading(true);
     const formData = new FormData();
-    formData.append('image', file);
+    formData.append('image', file);  
     formData.append('title', title);
     formData.append('desc', desc);
     formData.append('price', price);
     formData.append('category', category);
 console.log(formData)
-    try {
-      await axios.post('http://localhost:4500/products/', formData, {
-        headers: {
-
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`
-
-        }
-      });
-      alert('Product added successfully');
-      setTitle('');
-      setDescription('');
-      setPrice('');
-      setCategory('');
-      setFile(null);
-    } catch (error) {
-      console.error('Error adding product:', error);
-      alert('Error adding product. Please try again.');
-    } finally {
-      setUploading(false);
-    }
+ dispatch(postProducts(formData))
+ setUploading(false)
   };
 
   return (
     <div>
       <FormControl>
         <FormLabel>Upload Image</FormLabel>
-        <Input type='file' placeholder='Upload Image' accept='image/*' disabled={uploading} onChange={handleFileChange} />
+        <Input type='file' placeholder='Upload Image' accept='image/*' name='profile' disabled={uploading} onChange={handleFileChange} />
         <FormLabel mt={4}>Title</FormLabel>
         <Input type='text' placeholder='Title' value={title} disabled={uploading} onChange={(e) => setTitle(e.target.value)} />
         <FormLabel mt={4}>Description</FormLabel>
@@ -257,3 +241,85 @@ console.log(formData)
 };
 
 export default AddProduct;
+////////////////////////////////////////*/
+
+import React, { useState } from 'react';
+
+import {
+  FormControl,
+  Button,
+  FormLabel,
+  Input,
+  Textarea,
+  Select
+} from '@chakra-ui/react';
+import axios from 'axios';
+import {useDispatch} from 'react-redux'
+import { postProducts } from '../redux/taskReducer/action';
+import { UploadOutlined } from '@ant-design/icons';
+import {  Upload } from 'antd';
+
+
+const AddProduct = () => {
+  const token = localStorage.getItem("token")
+  const dispatch=useDispatch()
+  const [file, setFile] = useState(null);
+  const [title, setTitle] = useState('');
+  const [desc, setDescription] = useState('');
+  const [price, setPrice] = useState('');
+  const [category, setCategory] = useState('');
+  const [uploading, setUploading] = useState(false);
+
+  const handleFileChange = (e) => {
+    setFile(e.target.files[0]);
+  };
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    if (!file || !title || !desc || !price || !category) {
+      alert('Please fill all the fields and select an image to upload.');
+      return;
+    }
+
+    setUploading(true);
+    const formData = new FormData();
+    formData.append('image', file, "profile");  
+    formData.append('title', title);
+    formData.append('desc', desc);
+    formData.append('price', price);
+    formData.append('category', category);
+console.log(formData)
+ dispatch(postProducts(formData))
+ setUploading(false)
+  };
+
+  return (
+    <div>
+      <FormControl>
+
+        <FormLabel>Upload Image</FormLabel>
+        <Input type='file' placeholder='Upload Image' accept='image/*' name='profile' disabled={uploading} onChange={handleFileChange} />
+       
+        <FormLabel mt={4}>Title</FormLabel>
+        <Input type='text' placeholder='Title' value={title} disabled={uploading} onChange={(e) => setTitle(e.target.value)} />
+        <FormLabel mt={4}>Description</FormLabel>
+        <Textarea placeholder='Description' value={desc} disabled={uploading} onChange={(e) => setDescription(e.target.value)} />
+        <FormLabel mt={4}>Price</FormLabel>
+        <Input type='number' placeholder='Price' value={price} disabled={uploading} onChange={(e) => setPrice(e.target.value)} />
+        <FormLabel mt={4}>Category</FormLabel>
+        <Select placeholder="Select category" value={category} disabled={uploading} onChange={(e) => setCategory(e.target.value)}>
+          <option value="makeup">makeup</option>
+          <option value="skincare">skincare</option>
+          <option value="haircare">haircare</option>
+        </Select>
+        <Button mt={4} colorScheme="teal" isLoading={uploading} loadingText="Uploading" type="submit" onClick={handleSubmit}>
+          Upload
+        </Button>
+      </FormControl> 
+    </div>
+  );
+};
+
+export default AddProduct;
+
+
